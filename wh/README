@@ -1,0 +1,28 @@
+
+wh.cgi(1)                 BSD General Commands Manual                wh.cgi(1)
+
+NAME
+     wh.cgi -- Add comment to pull requests.
+
+SYNOPSIS
+     wh.cgi
+
+DESCRIPTION
+     This CGI script is a Github webhook that, when a pull_request.open event
+     is received, will:
+
+     o   Add a comment, referencing the Pull Request Template of the repository.
+
+FILES
+     wh.cgi uses restricted services of the Github REST API.  Access to these
+     services require a user token, that must be saved in the .wh/whtoken
+     file.  For example, if wh.cgi will act in name of the user 'foo' with
+     token 'abc', the contents of the file will be 'foo:abc' - user name and
+     token separated by a colon. This token must be in its own line, with no
+     blanks other than the final newline.  The file must not contain anything
+     else.
+
+AUTHORS
+     Adolfo Perez Alvarez <adolfopa@sdf.org>
+
+BSD                             May 17, 2022                             BSD
