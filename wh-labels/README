@@ -1,0 +1,55 @@
+
+wh-labels.cgi(1)                 BSD General Commands Manual                wh-labels.cgi(1)
+
+NAME
+     wh-labels.cgi -- Label pull requests.
+
+SYNOPSIS
+     wh-labels.cgi
+
+DESCRIPTION
+     This CGI script is a Github webhook that, when a pull_request.open event
+     is received, will:
+
+     o   Label the pull request depending on its contents.
+
+     The commenting business should be pretty straightforward; the labeling
+     criteria is the following:
+
+     o   If the pull request contains any .java, .jsp, .jspf, or .xml file,
+         then the label backend review needed will be assigned.
+
+     o   If it contains .js, .css, or .html files, then the label
+         frontend review needed will be assigned.
+
+     o   If there are any files with the .macro, .path or .testcase then the qa
+         review needed label will be used.
+
+     Note that the label behavior will change depending on the contents of the
+     .wh/labels/ directory and the ./wh/users file.
+
+FILES
+     wh-labels.cgi uses restricted services of the Github REST API. Access to
+     these services require a user token, that must be saved in the .wh/whtoken
+     file.  For example, if wh-labels.cgi will act in name of the user 'foo'
+     with token 'abc', the contents of the file will be 'foo:abc' - user name
+     and token separated by a colon. This token must be in its own line, with no
+     blanks other than the final newline.  The file must not contain anything
+     else.
+
+     To assign the labels, wh-labels.cgi will examine the set of files stored in
+     .wh/labels/.  Any file there will be taken as a label (i.e. the name of
+     the file will be the name of the label).  Each of these label files must
+     contain the set of extensions that will trigger that label assignment
+     (this extension must not contain the dot).  Each extension must be in its
+     own line.
+
+     No label will be added if the user opening the pull request is found in
+     the .wh/users file, where each user which should be skipped should be added
+     in a separate line.
+
+
+AUTHORS
+     Adolfo Perez Alvarez <adolfopa@sdf.org>
+
+BSD                             April 11, 2022                             BSD
