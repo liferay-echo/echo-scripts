@@ -25,8 +25,14 @@ DESCRIPTION
      o   If there are any files with the .macro, .path or .testcase then the qa
          review needed label will be used.
 
+     o   If there are any files with the names ci.properties or test.properties
+         then the qa review needed label will be used.
+
+     o   If the user who opened the pull request is within the ./wh/users file
+         no labels will be added.
+
      Note that the label behavior will change depending on the contents of the
-     .wh/labels/ directory and the ./wh/users file.
+     .wh/labels/ and the .wh/file-name-labels/ directories and ./wh/users file.
 
 FILES
      wh-labels.cgi uses restricted services of the Github REST API. Access to
@@ -43,6 +49,13 @@ FILES
      contain the set of extensions that will trigger that label assignment
      (this extension must not contain the dot).  Each extension must be in its
      own line.
+
+     To assign the labels, wh-labels.cgi will also examine the set of files
+     stored in .wh/file-name-labels/.  Any file there will be taken as a label
+     (i.e. the name of the file will be the name of the label).  Each of these
+     label files must contain the set of file names that will trigger that label
+     assignment (the file name must contain the extension). Each file name must
+     be in its own line.
 
      No label will be added if the user opening the pull request is found in
      the .wh/users file, where each user which should be skipped should be added

@@ -45,11 +45,19 @@ whlsext()
 	sort -u
 }
 
+whlsname()
+{
+	curl -u $token -H "Accept: application/vnd.github.v3+json" $1 |
+	jq -r '.[].filename|@text' |
+	xargs -n 1 basename |
+	sort -u
+}
+
 whlabel()
 {
 	tmp=`mktemp -t wh`
 	cat >$tmp
-	grep -F -l -x -f $tmp $whconf/labels/* |
+	grep -F -l -x -f $tmp $whconf/$2/* |
 	tr ' ' '_' |
 	xargs -n 1 basename |
 	tr '_' ' ' |
@@ -59,4 +67,5 @@ whlabel()
 	rm $tmp
 }
 
-whlsext "$files_url" | whlabel "$labels_url"
+whlsext "$files_url" | whlabel "$labels_url" labels
+whlsname "$files_url" | whlabel "$labels_url" file-name-labels
